@@ -2,16 +2,24 @@ package com.company;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 
-public class ObserverPatternDemo {
-
-    public static void main(String[] args) {
-
+/**
+ *
+ * @author Leonardo
+ */
+public class ObserverPatternDemo2 {
+ public static void main(String[] args) {
+        Random gen = new Random();
+        
+        //creo il soggetto da osservare
         Subject s = new Subject();
-        HexaObserver HexO=new HexaObserver(s);
+        //creo i tre osservatori
+        HexaObserver HexO = new HexaObserver(s);
         OctalObserver OctO = new OctalObserver(s);
-        BinaryObserver BinO=new BinaryObserver(s);
+        BinaryObserver BinO = new BinaryObserver(s);
 
+        //aggiungo i tre osservatori utilizzando un metodo della classe Observable
         s.addObserver(HexO);
         s.addObserver(OctO);
         s.addObserver(BinO);
@@ -20,12 +28,17 @@ public class ObserverPatternDemo {
         System.out.println();
         System.out.println("15");
         s.setState(15);
-
+        System.out.println();
+        int app=gen.nextInt(100)+1;
+        System.out.println(""+app);
+        s.setState(app);
 
     }
 }
 
-class Subject extends Observable{
+//quetsa classe estende la classe astratta Observer e viene utilizzata come soggetto da osservare
+class Subject extends Observable {
+
     private int state;
 
     public int getState() {
@@ -33,7 +46,7 @@ class Subject extends Observable{
     }
 
     public void setState(int state) {
-        if(state!=this.state){
+        if (state != this.state) {
             setChanged();
             this.state = state;
             notifyObservers();
@@ -41,8 +54,10 @@ class Subject extends Observable{
     }
 }
 
+//questa classe che implementa Observer viene utilizzata per: osservare i cambiamenti della classe soggetto e convertire il 
+//valore ottenuto da intero a esadecimale
+class HexaObserver implements Observer {
 
-class HexaObserver implements Observer{
     Subject s;
 
     public HexaObserver(Subject s) {
@@ -51,11 +66,14 @@ class HexaObserver implements Observer{
 
     @Override
     public void update(Observable observable, Object o) {
-         System.out.println("Hex String: " + Integer.toHexString(s.getState()).toUpperCase());
+        System.out.println("Hex String: " + Integer.toHexString(s.getState()).toUpperCase());
     }
 }
 
-class OctalObserver implements Observer{
+//questa classe che implementa Observer viene utilizzata per: osservare i cambiamenti della classe soggetto e convertire il 
+//valore ottenuto da intero a ottale
+class OctalObserver implements Observer {
+
     Subject s;
 
     public OctalObserver(Subject s) {
@@ -68,7 +86,10 @@ class OctalObserver implements Observer{
     }
 }
 
-class BinaryObserver implements Observer{
+//questa classe che implementa Observer viene utilizzata per: osservare i cambiamenti della classe soggetto e convertire il 
+//valore ottenuto da intero a binario
+class BinaryObserver implements Observer {
+
     Subject s;
 
     public BinaryObserver(Subject s) {
