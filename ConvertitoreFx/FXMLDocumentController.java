@@ -17,15 +17,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.TextAlignment;
 
 /**
-
  @author andrea.zoccarato
  */
 public class FXMLDocumentController implements Initializable {
 	 
-        private final Subject s = new Subject();
-        private final OctalObserver OctO=new OctalObserver(s);
-        private final BinaryObserver BinO=new BinaryObserver(s);
-        private final HexaObserver HexO=new HexaObserver(s);;
+        private final Subject s;
+        private final OctalObserver OctO;
+        private final BinaryObserver BinO;
+        private final HexaObserver HexO,
         
 	@FXML
 	private Label Hexa;
@@ -71,7 +70,10 @@ public class FXMLDocumentController implements Initializable {
 	
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		// TODO
+		s = new Subject();
+                OctO=new OctalObserver(s);
+                BinO=new BinaryObserver(s);
+                HexO=new HexaObserver(s);
 	}	
 	
 }
